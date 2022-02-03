@@ -1,0 +1,14 @@
+<p *ngIf='lastClicked.length>0'>Last clicked on {{lastClicked}}</p>
+<ag-grid-angular
+class="ag-theme-balham gridStyler"
+[columnDefs]="columnDef"
+[defaultColDef]="defaultColumnDef"
+[rowData]="dataSource"
+[gridOptions]="gridOptions"
+[frameworkComponents]="frameworksComponents"
+(cellDoubleClicked)="onCellDoubleClicked($event)"
+(cellClicked)="onCellClicked($event)"
+(gridReady)="onGridReady($event)"
+(selectionChanged)="selectionChanged($event)"
+>
+</ag-grid-angular>
