@@ -11,6 +11,7 @@ export class GridTableComponent implements OnInit {
   lastClicked: any = '';
   gridApi: any;
   gridColumnApi: any;
+  hideAddrCol = false;
   
   
   constructor() { }
@@ -40,7 +41,8 @@ export class GridTableComponent implements OnInit {
       else {
         return {backgroundColor: '#cfffd1'};
       }
-    } 
+    },
+    comparator: (valA, valB, nodeA, nodeB, isInverted) => this.customCompare(nodeA, nodeB)
   }, 
   {headerName: 'School Name', field: 'school_name', suppressSizeToFit: true}, 
   {headerName: 'Address', field: 'address', suppressSizeToFit: true},
@@ -170,6 +172,10 @@ onCellClicked(params: any) {
   this.lastClicked = JSON.stringify(params.data);
 }
 
+customCompare(cellA, cellB) {
+  return cellA.data.student_name.length - cellB.data.student_name.length;
+}
+
 onCellDoubleClicked(params: any) {
   alert(JSON.stringify(params.data));
 }
@@ -186,6 +192,12 @@ onGridReady(params: any) {
   this.gridApi = params.api;
   this.gridColumnApi = params.columnApi;
   console.log("Grid ready");
+}
+
+togglePhoneColumn() {
+  this.hideAddrCol = !this.hideAddrCol;
+  let updatedColumnDef = this.hideAddrCol? [...this.columnDef].filter(colDef => colDef.headerName !== "Phone"): this.columnDef;
+  this.gridApi.setColumnDefs(updatedColumnDef);
 }
 
 ngOnInit(): void {
